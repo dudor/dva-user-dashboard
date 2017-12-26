@@ -2,10 +2,9 @@ import React from 'react';
 import styles from './Users.css';
 import { connect } from 'dva'
 import { Table, Pagination, Popconfirm } from 'antd';
+import { PAGE_SIZE } from '../../constants'
 
-const PAGE_SIZE = 10
-
-function Users({ list: dataSource, total, page: current }) {
+function Users({ list: dataSource, loading, total, page: current }) {
   function deleteHandler(id) {
     console.log("delete:" + id);
   }
@@ -44,8 +43,13 @@ function Users({ list: dataSource, total, page: current }) {
   return (
     <div className={styles.normal}>
       <div>
-        <Table columns={columns} dataSource={dataSource} rowKey={record => record.id} pagination={false}>
-        </Table>
+        <Table
+          columns={columns}
+          dataSource={dataSource}
+          loading={loading}
+          rowKey={record => record.id}
+          pagination={false}
+        />
         <Pagination
           className="ant-table-pagination"
           total={total}
@@ -59,7 +63,7 @@ function Users({ list: dataSource, total, page: current }) {
 
 function mapStateToProps(state) {
   const { list, total, page } = state.users;
-  return { list, total, page }
+  return { list, total, page, loading: state.loading.models.users }
 }
 
 export default connect(mapStateToProps)(Users)
