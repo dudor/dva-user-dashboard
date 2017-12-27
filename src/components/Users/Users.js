@@ -1,13 +1,17 @@
 import React from 'react';
 import styles from './Users.css';
 import { connect } from 'dva'
-import { Table, Pagination, Popconfirm } from 'antd';
+import { Table, Pagination, Popconfirm, Button } from 'antd';
 import { PAGE_SIZE } from '../../constants'
 import { routerRedux } from 'dva/router'
 import UserModal from './UserModal'
 
 
 function Users({ dispatch, list: dataSource, loading, total, page: current }) {
+
+  function createHandler(values) {
+    dispatch({ type: 'users/create', payload: values });
+  }
 
   function deleteHandler(id) {
     console.log("delete:" + id);

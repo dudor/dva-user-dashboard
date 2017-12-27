@@ -11,7 +11,14 @@ export function remove(id) {
 
 export function patch(id, values) {
   return request(`/api/users/${id}`, {
-    methods: 'PATCH',
+    method: 'PATCH',
     body: JSON.stringify(values)
   })
+}
+
+export function create(values) {
+  return request('/api/users', {
+    method: 'POST',
+    body: JSON.stringify(values)
+  });
 }
