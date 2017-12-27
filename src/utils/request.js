@@ -30,6 +30,6 @@ export default function request(url, options) {
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)
-    .then(data => { console.log(data); return { data, headers: { totalCount } } })
+    .then(data => { return { data, headers: { totalCount } } })
     .catch(err => ({ err }));
 }

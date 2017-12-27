@@ -3,10 +3,25 @@ import styles from './Users.css';
 import { connect } from 'dva'
 import { Table, Pagination, Popconfirm } from 'antd';
 import { PAGE_SIZE } from '../../constants'
+import { routerRedux } from 'dva/router'
 
-function Users({ list: dataSource, loading, total, page: current }) {
+function Users({ dispatch, list: dataSource, loading, total, page: current }) {
+
   function deleteHandler(id) {
     console.log("delete:" + id);
+    dispatch({
+      type: 'users/remove',
+      payload: id
+    });
+  }
+
+  function pageChangeHandler(page) {
+    dispatch(
+      routerRedux.push({
+        pathname: '/users',
+        query: { page }
+      })
+    );
   }
 
   const columns = [
@@ -55,6 +70,7 @@ function Users({ list: dataSource, loading, total, page: current }) {
           total={total}
           current={current}
           pageSize={PAGE_SIZE}
+          onChange={pageChangeHandler}
         />
       </div>
     </div>
@@ -62,6 +78,7 @@ function Users({ list: dataSource, loading, total, page: current }) {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   const { list, total, page } = state.users;
   return { list, total, page, loading: state.loading.models.users }
 }
